@@ -1,19 +1,22 @@
 plugins {
-    id("java")
+    java
+    application
 }
 
-group = "org.example"
-version = "1.0-SNAPSHOT"
+repositories { mavenCentral() }
 
-repositories {
-    mavenCentral()
+java {
+    toolchain { languageVersion.set(JavaLanguageVersion.of(21)) }
 }
 
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
+application { mainClass.set("ru.cinema.Main") }
+
+tasks.test { useJUnitPlatform() }
+
+tasks.named<JavaExec>("run") { standardInput = System.`in` }

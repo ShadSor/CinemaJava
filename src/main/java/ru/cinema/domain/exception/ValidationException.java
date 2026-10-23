@@ -1,4 +1,7 @@
 package ru.cinema.domain.exception;
 
-public class ValidationException {
+public class ValidationException extends CinemaException{
+    public ValidationException(String message) {
+        super(message);
+    }
 }
