@@ -17,6 +17,8 @@ dependencies {
 
 application { mainClass.set("ru.cinema.Main") }
 
+tasks.withType<JavaCompile> { options.encoding = "UTF-8" }
+
 tasks.test { useJUnitPlatform() }
 
 tasks.named<JavaExec>("run") { standardInput = System.`in` }

@@ -1,5 +1,7 @@
 package ru.cinema.domain.entity;
 
+import ru.cinema.domain.exception.ValidationException;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -48,25 +50,25 @@ public class Movie extends AbstractEntity<UUID> {
 
     private static void validateTitle(String title) {
         if (title == null || title.isBlank()) {
-            throw new IllegalArgumentException("Название фильма не может быть пустым");
+            throw new ValidationException("Название фильма не может быть пустым");
         }
     }
 
     private static void validateDurationMinutes(int durationMinutes) {
         if (durationMinutes <= 0) {
-            throw new IllegalArgumentException("Длительность фильма должна быть больше нуля");
+            throw new ValidationException("Длительность фильма должна быть больше нуля");
         }
     }
 
     private static void validateGenre(String genre) {
         if (genre == null || genre.isBlank()) {
-            throw new IllegalArgumentException("У фильма должен быть жанр");
+            throw new ValidationException("У фильма должен быть жанр");
         }
     }
 
     private static void validateAgeLimit(int ageLimit) {
         if (ageLimit < 0) {
-            throw new IllegalArgumentException("Ограничение по возрасту не может быть отрицательным");
+            throw new ValidationException("Ограничение по возрасту не может быть отрицательным");
         }
     }
 
@@ -108,6 +110,10 @@ public class Movie extends AbstractEntity<UUID> {
         validateAgeLimit(ageLimit);
         this.ageLimit = ageLimit;
         this.markAsUpdated();
+    }
+
+    public boolean isAllowedFor(int age) {
+        return age >= ageLimit;
     }
 
     @Override
